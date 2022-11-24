@@ -1,6 +1,25 @@
 .table {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid grey;
+  display: flex;
+  height: 90vh;
+  justify-content: center;
+  align-items: center;
+}
+
+th {
+  border: none;
+  width: 90px;
+  height: 90px;
+}
+table {
+  width: 400px;
+  height: 400px;
+}
+
+button {
+  margin-top: 17px;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  border: 1px solid rgb(170, 168, 168);
+  font-size: 60px
 }

@@ -18,6 +18,14 @@
 Позвольте игрокам ввести свои имена, добавьте кнопку для запуска / перезапуска игры и элемент отображения, который поздравляет победившего игрока!
 */
 
-let Gameboard = {
-    board: [],
-}
+window.onload = function () {
+  const Gameboard = (() => {
+    const board = document.querySelectorAll("button");
+    return board;
+  })();
+
+  const displayController = (() => {
+    
+  })();
+  console.log(Gameboard);
+};
