@@ -19,13 +19,8 @@
 */
 
 window.onload = function () {
-  const Gameboard = (() => {
-    const board = document.querySelectorAll("button");
-    return board;
-  })();
-
-  const displayController = (() => {
-    
-  })();
-  console.log(Gameboard);
+  console.log('START')
+  //code here
+  
+  console.log('END')
 };
