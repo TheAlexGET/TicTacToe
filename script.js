@@ -19,8 +19,31 @@
 */
 
 window.onload = function () {
-  console.log('START')
+  console.log("START");
   //code here
-  
-  console.log('END')
+  const gameBoard = (() => {
+    const board = document.querySelectorAll("button");
+    return { board };
+  })();
+
+  const newPlayer = (sign) => {
+    return{sign}
+  };
+  const player = newPlayer(prompt('Sign: ', 'X'))
+  const render = (() => {
+    //IDEA: do an list of number and if num is odd then move X else O
+    //render X on board
+    let i = 0
+    if (player.sign === "X") {
+      gameBoard[i].onclick = function () {
+        return (gameBoard[i].textContent = "X", i++);
+      };
+    }
+    if (player.sign === "O") {
+      gameBoard[i].onclick = function () {
+        return (gameBoard[i].textContent = "O", i++);
+      };
+    }
+  })();
+  console.log("END");
 };
