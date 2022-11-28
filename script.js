@@ -24,10 +24,6 @@ window.onload = function () {
     return document.querySelectorAll("button");
   })();
 
-  const user = {
-    0: "O",
-    1: "X",
-  };
   const displayController = (() => {
     let i = 0;
     const render = function () {
@@ -42,6 +38,10 @@ window.onload = function () {
             gameBoard[0].textContent = "O";
             i--;
           }
+        }
+        if((gameBoard[0].textContent == gameBoard[1].textContent) && (gameBoard[1].textContent == gameBoard[2].textContent)){ //ITS working
+          alert(`Player ${gameBoard[0].textContent} Won!!!`)
+          window.location.reload()
         }
       };
       gameBoard[1].onclick = function () {
