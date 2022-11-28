@@ -15,35 +15,49 @@
 Важно поместить их в логичные места. Потратив немного времени на мозговой штурм, вы можете значительно облегчить себе жизнь!
 Добавьте логику, которая проверяет, когда игра окончена! Первый, выстроивший в ряд 3 своих фигуры по вертикали, горизонтали или диагонали, выигрывает.
 
-Позвольте игрокам ввести свои имена, добавьте кнопку для запуска / перезапуска игры и элемент отображения, который поздравляет победившего игрока!
+Позвольт
+е игрокам ввести свои имена, добавьте кнопку для запуска / перезапуска игры и элемент отображения, который поздравляет победившего игрока!
 */
-
 window.onload = function () {
-  console.log("START");
   //code here
   const gameBoard = (() => {
-    const board = document.querySelectorAll("button");
-    return { board };
+    return document.querySelectorAll("button");
   })();
-
-  const newPlayer = (sign) => {
-    return{sign}
+  console.log(gameBoard)
+  const user = {
+    0: "O",
+    1: "X",
   };
-  const player = newPlayer(prompt('Sign: ', 'X'))
-  const render = (() => {
-    //IDEA: do an list of number and if num is odd then move X else O
-    //render X on board
-    let i = 0
-    if (player.sign === "X") {
-      gameBoard[i].onclick = function () {
-        return (gameBoard[i].textContent = "X", i++);
+  const displayController = (() => {
+    let i = 0;
+    const render = function () {
+      gameBoard[0].onclick = function () {
+        if (i === 0) {
+          if (gameBoard[0].textContent == '') {
+            gameBoard[0].textContent = "X";
+            i++;
+          }
+        } else {
+          if (gameBoard[0].textContent == '') {
+            gameBoard[0].textContent = "O";
+            i--;
+          }
+        }
       };
-    }
-    if (player.sign === "O") {
-      gameBoard[i].onclick = function () {
-        return (gameBoard[i].textContent = "O", i++);
+      gameBoard[1].onclick = function () {
+        if (i === 0) {
+          if (gameBoard[1].textContent == '') {
+            gameBoard[1].textContent = "X";
+            i++;
+          }
+        } else {
+          if (gameBoard[1].textContent == '') {
+            gameBoard[1].textContent = "O";
+            i--;
+          }
+        }
       };
-    }
-  })();
-  console.log("END");
-};
+    };
+    render()
+  })()
+}
