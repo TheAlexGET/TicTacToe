@@ -23,7 +23,7 @@ window.onload = function () {
   let gameBoard = (() => {
     return document.querySelectorAll("button");
   })();
-
+  let congrat = document.querySelector("#congrat");
   const displayController = (() => {
     let i = 0;
     const render = function () {
@@ -39,9 +39,17 @@ window.onload = function () {
             i--;
           }
         }
-        if((gameBoard[0].textContent == gameBoard[1].textContent) && (gameBoard[1].textContent == gameBoard[2].textContent)){ //ITS working
-          alert(`Player ${gameBoard[0].textContent} Won!!!`)
-          window.location.reload()
+        if (
+          (gameBoard[0].textContent == gameBoard[1].textContent &&
+            gameBoard[1].textContent == gameBoard[2].textContent) ||
+          (gameBoard[0].textContent == gameBoard[4].textContent &&
+            gameBoard[4].textContent == gameBoard[8].textContent) ||
+          (gameBoard[0].textContent == gameBoard[3].textContent &&
+            gameBoard[3].textContent == gameBoard[6].textContent)
+        ) {
+          //ITS working
+          congrat.textContent = `Player ${gameBoard[0].textContent} a castigat!!!`;
+          gameBoard.forEach((key) => {return key.disabled = true})
         }
       };
       gameBoard[1].onclick = function () {
@@ -56,6 +64,16 @@ window.onload = function () {
             i--;
           }
         }
+        if (
+          (gameBoard[0].textContent == gameBoard[1].textContent &&
+            gameBoard[1].textContent == gameBoard[2].textContent) ||
+          (gameBoard[1].textContent == gameBoard[4].textContent &&
+            gameBoard[4].textContent == gameBoard[7].textContent)
+        ) {
+          //ITS working
+          congrat.textContent = `Player ${gameBoard[1].textContent} a castigat!!!`;
+          gameBoard.forEach((key) => {return key.disabled = true})
+        }
       };
       gameBoard[2].onclick = function () {
         if (i === 0) {
@@ -68,6 +86,18 @@ window.onload = function () {
             gameBoard[2].textContent = "O";
             i--;
           }
+        }
+        if (
+          (gameBoard[0].textContent == gameBoard[1].textContent &&
+            gameBoard[1].textContent == gameBoard[2].textContent) ||
+          (gameBoard[2].textContent == gameBoard[4].textContent &&
+            gameBoard[4].textContent == gameBoard[6].textContent) ||
+          (gameBoard[2].textContent == gameBoard[5].textContent &&
+            gameBoard[5].textContent == gameBoard[8].textContent)
+        ) {
+          //ITS working
+          congrat.textContent = `Player ${gameBoard[2].textContent} a castigat!!!`;
+          gameBoard.forEach((key) => {return key.disabled = true})
         }
       };
       gameBoard[3].onclick = function () {
@@ -82,6 +112,16 @@ window.onload = function () {
             i--;
           }
         }
+        if (
+          (gameBoard[0].textContent == gameBoard[3].textContent &&
+            gameBoard[3].textContent == gameBoard[6].textContent) ||
+          (gameBoard[3].textContent == gameBoard[4].textContent &&
+            gameBoard[4].textContent == gameBoard[5].textContent)
+        ) {
+          //ITS working
+          congrat.textContent = `Player ${gameBoard[3].textContent} a castigat!!!`;
+          gameBoard.forEach((key) => {return key.disabled = true})
+        }
       };
       gameBoard[4].onclick = function () {
         if (i === 0) {
@@ -94,6 +134,20 @@ window.onload = function () {
             gameBoard[4].textContent = "O";
             i--;
           }
+        }
+        if (
+          (gameBoard[0].textContent == gameBoard[4].textContent &&
+            gameBoard[4].textContent == gameBoard[8].textContent) ||
+          (gameBoard[1].textContent == gameBoard[4].textContent &&
+            gameBoard[4].textContent == gameBoard[7].textContent) ||
+          (gameBoard[2].textContent == gameBoard[4].textContent &&
+            gameBoard[4].textContent == gameBoard[6].textContent) ||
+          (gameBoard[3].textContent == gameBoard[4].textContent &&
+            gameBoard[4].textContent == gameBoard[5].textContent)
+        ) {
+          //ITS working
+          congrat.textContent = `Player ${gameBoard[4].textContent} a castigat!!!`;
+          gameBoard.forEach((key) => {return key.disabled = true})
         }
       };
       gameBoard[5].onclick = function () {
@@ -108,6 +162,16 @@ window.onload = function () {
             i--;
           }
         }
+        if (
+          (gameBoard[2].textContent == gameBoard[5].textContent &&
+            gameBoard[5].textContent == gameBoard[8].textContent) ||
+          (gameBoard[3].textContent == gameBoard[4].textContent &&
+            gameBoard[4].textContent == gameBoard[5].textContent)
+        ) {
+          //ITS working
+          congrat.textContent = `Player ${gameBoard[5].textContent} a castigat!!!`;
+          gameBoard.forEach((key) => {return key.disabled = true})
+        }
       };
       gameBoard[6].onclick = function () {
         if (i === 0) {
@@ -120,6 +184,18 @@ window.onload = function () {
             gameBoard[6].textContent = "O";
             i--;
           }
+        }
+        if (
+          (gameBoard[0].textContent == gameBoard[3].textContent &&
+            gameBoard[3].textContent == gameBoard[6].textContent) ||
+          (gameBoard[6].textContent == gameBoard[7].textContent &&
+            gameBoard[7].textContent == gameBoard[8].textContent) ||
+          (gameBoard[2].textContent == gameBoard[4].textContent &&
+            gameBoard[4].textContent == gameBoard[6].textContent)
+        ) {
+          //ITS working
+          congrat.textContent = `Player ${gameBoard[6].textContent} a castigat!!!`;
+          gameBoard.forEach((key) => {return key.disabled = true})
         }
       };
       gameBoard[7].onclick = function () {
@@ -134,6 +210,16 @@ window.onload = function () {
             i--;
           }
         }
+        if (
+          (gameBoard[6].textContent == gameBoard[7].textContent &&
+            gameBoard[7].textContent == gameBoard[8].textContent) ||
+          (gameBoard[1].textContent == gameBoard[4].textContent &&
+            gameBoard[4].textContent == gameBoard[7].textContent)
+        ) {
+          //ITS working
+          congrat.textContent = `Player ${gameBoard[7].textContent} a castigat!!!`;
+          gameBoard.forEach((key) => {return key.disabled = true})
+        }
       };
       gameBoard[8].onclick = function () {
         if (i === 0) {
@@ -147,8 +233,20 @@ window.onload = function () {
             i--;
           }
         }
+        if (
+          (gameBoard[6].textContent == gameBoard[7].textContent &&
+            gameBoard[7].textContent == gameBoard[8].textContent) ||
+          (gameBoard[0].textContent == gameBoard[4].textContent &&
+            gameBoard[4].textContent == gameBoard[8].textContent) ||
+          (gameBoard[2].textContent == gameBoard[5].textContent &&
+            gameBoard[5].textContent == gameBoard[8].textContent)
+        ) {
+          //ITS working
+          congrat.textContent = `Player ${gameBoard[8].textContent} a castigat!!!`;
+          gameBoard.forEach((key) => {return key.disabled = true})
+        }
       };
     };
-    render();
+    return render();
   })();
 };
