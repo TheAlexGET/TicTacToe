@@ -1,29 +1,3 @@
-// const person = Object.create({}, {
-//     name:{
-//         value: 'Alex',
-//         enumerable: true, // It will be visible in cicles and other functions
-//         writable: true, // now we can change name
-//         configurable: true, //now we can delete keys from objects
-//     },
-//     birthYear:{
-//         value: 2006,
-//         enumerable: false,
-//         writable: false,
-//         configurable: false,
-//     },
-//     age:{
-//         get(){
-//             return new Date().getFullYear() - this.birthYear
-//         },
-//         set(value){
-//             console.log(true)
-//         },
-//     }
-// })
-
-// console.log(person.age)
-
-// person.age = 10
 
 /*
 Создайте проект с файлами HTML, CSS и Javascript и настройте репозиторий Git. (done)
@@ -49,11 +23,13 @@
 //creating gameBoard
 window.onload = function () {
   const Gameboard = {
-    board: document.querySelectorAll("button"),
+    board: function () {
+      return document.querySelectorAll("button");
+    },
   };
 
   //creating Player
-  let i = 0;
+  let i = 1;
   let playerSign = "X";
   const Player = (playerName) => {
     if (i === 0) {
@@ -67,24 +43,95 @@ window.onload = function () {
     }
   };
 
-  const player1 = Player("Alex");
-  const player2 = Player("Alisa");
+  const player1 = Player(prompt('Player1 insert your name :)'));
+  const player2 = Player(prompt('Player2 insert your name :)'));
 
   //game status checking
 
   let gameStatus = {
-    turn: 1
-  }
-  console.log(gameStatus.turn += 1)
-  //render function
+    turn: 1,
+  };
 
-  const render = ((player1, player2) => {
-    for (i = 0; i < Gameboard.board.length; i++) { //not done yet
+  //future
+
+  //render function
+  const render = (() => {
+    for (i = 0; i < Gameboard.board().length; i++) {
+      //done
       let num = i;
-      let turn = gameStatus.turn
-      Gameboard.board[i].onclick = function(){
-          Gameboard.board[num].textContent = 'X'
-      }
+      Gameboard.board()[i].onclick = function () {
+        if (gameStatus.turn === 1) {
+          if (Gameboard.board()[num].textContent != "") {
+            //check function if sign isnt added yet
+            return;
+          }
+          Gameboard.board()[num].textContent = player1.playerSign;
+          gameStatus.turn -= 1;
+        } else if (gameStatus.turn === 0) {
+          if (Gameboard.board()[num].textContent != "") {
+            //check function if sign isnt added yet
+            return;
+          }
+          Gameboard.board()[num].textContent = player2.playerSign;
+          gameStatus.turn += 1;
+        }
+        let matches = [
+          //0, 1, 2
+          `${Gameboard.board()[0].textContent}${
+            Gameboard.board()[1].textContent
+          }${Gameboard.board()[2].textContent}`,
+          //0, 3, 6
+          `${Gameboard.board()[0].textContent}${
+            Gameboard.board()[3].textContent
+          }${Gameboard.board()[6].textContent}`,
+          //0, 4, 8
+          `${Gameboard.board()[0].textContent}${
+            Gameboard.board()[4].textContent
+          }${Gameboard.board()[8].textContent}`,
+          //3, 4, 5
+          `${Gameboard.board()[3].textContent}${
+            Gameboard.board()[4].textContent
+          }${Gameboard.board()[5].textContent}`,
+          //6, 7, 8
+          `${Gameboard.board()[6].textContent}${
+            Gameboard.board()[7].textContent
+          }${Gameboard.board()[8].textContent}`,
+          //1, 4, 7
+          `${Gameboard.board()[1].textContent}${
+            Gameboard.board()[4].textContent
+          }${Gameboard.board()[7].textContent}`,
+          //2, 4, 6
+          `${Gameboard.board()[2].textContent}${
+            Gameboard.board()[4].textContent
+          }${Gameboard.board()[6].textContent}`,
+        ];
+        if (
+          matches[0] == "XXX" ||
+          matches[0] == "OOO" ||
+          matches[1] == "XXX" ||
+          matches[1] == "OOO" ||
+          matches[2] == "XXX" ||
+          matches[2] == "OOO" ||
+          matches[3] == "XXX" ||
+          matches[3] == "OOO" ||
+          matches[4] == "XXX" ||
+          matches[4] == "OOO" ||
+          matches[5] == "XXX" ||
+          matches[5] == "OOO" ||
+          matches[6] == "XXX" ||
+          matches[6] == "OOO" ||
+          matches[7] == "XXX" ||
+          matches[7] == "OOO" ||
+          matches[8] == "XXX" ||
+          matches[8] == "OOO"
+        ) {
+          Gameboard.board().forEach((key) => {return key.disabled = true})
+          if(gameStatus.turn == 0){
+            document.querySelector('#congrat').textContent = `A castigat: ${player1.playerName}!`
+          }
+          else if(gameStatus.turn == 1){document.querySelector('#congrat').textContent = `A castigat: ${player2.playerName}!`}
+        }
+      };
     }
   })();
 };
