@@ -1,4 +1,3 @@
-
 /*
 Создайте проект с файлами HTML, CSS и Javascript и настройте репозиторий Git. (done)
 
@@ -22,6 +21,8 @@
 
 //creating gameBoard
 window.onload = function () {
+  let player1 = null
+  let player2 = null
   const Gameboard = {
     board: function () {
       return document.querySelectorAll("button");
@@ -30,29 +31,20 @@ window.onload = function () {
 
   //creating Player
   let i = 1;
-  let playerSign = "X";
   const Player = (playerName) => {
-    if (i === 0) {
-      i++;
-      playerSign = "O";
-      return { playerName, playerSign };
-    } else if (i === 1) {
-      i--;
-      playerSign = "X";
-      return { playerName, playerSign };
+     const playerSign1 = 'X';
+     const playerSign2 = 'O'
+      return {playerName, playerSign1, playerSign2};
     }
-  };
 
-  const player1 = Player(prompt('Player1 insert your name :)'));
-  const player2 = Player(prompt('Player2 insert your name :)'));
-
-  //game status checking
-
+  //future // init players when player click the button
+  document.querySelector('#newPlayer').onclick = function(){
+    player1 = Player(prompt("Player1 insert your name:"));
+    player2 = Player(prompt("Player2 insert your name:"))
+    }
   let gameStatus = {
     turn: 1,
   };
-
-  //future
 
   //render function
   const render = (() => {
@@ -60,22 +52,25 @@ window.onload = function () {
       //done
       let num = i;
       Gameboard.board()[i].onclick = function () {
+        if(player1 == null){
+          return alert('Create new Players please ;)')
+        }
         if (gameStatus.turn === 1) {
           if (Gameboard.board()[num].textContent != "") {
             //check function if sign isnt added yet
             return;
           }
-          Gameboard.board()[num].textContent = player1.playerSign;
+          Gameboard.board()[num].textContent = player1.playerSign1;
           gameStatus.turn -= 1;
         } else if (gameStatus.turn === 0) {
           if (Gameboard.board()[num].textContent != "") {
             //check function if sign isnt added yet
             return;
           }
-          Gameboard.board()[num].textContent = player2.playerSign;
+          Gameboard.board()[num].textContent = player2.playerSign2;
           gameStatus.turn += 1;
         }
-        let matches = [
+        let matches = [ //base of possible win matches
           //0, 1, 2
           `${Gameboard.board()[0].textContent}${
             Gameboard.board()[1].textContent
@@ -125,11 +120,18 @@ window.onload = function () {
           matches[8] == "XXX" ||
           matches[8] == "OOO"
         ) {
-          Gameboard.board().forEach((key) => {return key.disabled = true})
-          if(gameStatus.turn == 0){
-            document.querySelector('#congrat').textContent = `A castigat: ${player1.playerName}!`
+          Gameboard.board().forEach((key) => {
+            return (key.disabled = true);
+          });
+          if (gameStatus.turn == 0) {
+            document.querySelector(
+              "#congrat"
+            ).textContent = `A castigat: ${player1.playerName}!`;
+          } else if (gameStatus.turn == 1) {
+            document.querySelector(
+              "#congrat"
+            ).textContent = `A castigat: ${player2.playerName}!`;
           }
-          else if(gameStatus.turn == 1){document.querySelector('#congrat').textContent = `A castigat: ${player2.playerName}!`}
         }
       };
     }
