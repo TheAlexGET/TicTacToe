@@ -21,11 +21,166 @@
 
 //creating game
 window.onload = function () {
+  class Move {
+    constructor() {
+      let id;
+    }
+  }
   let player1 = null;
   let player2 = null;
   let Game = {
+    evaluate: function () {
+      for (i = 0; i < 7; i += 3) {
+        if (
+          Game.board()[i].textContent == Game.board()[i + 1].textContent &&
+          Game.board()[i + 1].textContent == Game.board()[i + 2].textContent
+        ) {
+          if (Game.board()[i].textContent == "X") {
+            return +10;
+          } else if (Game.board()[i].textContent == "O") {
+            return -10;
+          }
+        }
+      }
+      for (i = 0; i < 3; i++) {
+        if (
+          Game.board()[i].textContent == Game.board()[i + 3].textContent &&
+          Game.board()[i + 3].textContent == Game.board()[i + 6].textContent
+        ) {
+          if (Game.board()[i].textContent == "X") {
+            return +10;
+          } else if (Game.board()[i].textContent == "O") {
+            return -10;
+          }
+        }
+      }
+      if (
+        Game.board()[0].textContent == Game.board()[4].textContent &&
+        Game.board()[4].textContent == Game.board()[8].textContent
+      ) {
+        if (Game.board()[0].textContent == "X") {
+          return +10;
+        } else if (Game.board()[0].textContent == "O") {
+        }
+      }
+      if (
+        Game.board()[2].textContent == Game.board()[4].textContent &&
+        Game.board()[4].textContent == Game.board()[6].textContent
+      ) {
+        if (Game.board()[2].textContent == "X") {
+          return +10;
+        } else if (Game.board()[2].textContent == "O") {
+          return -10;
+        }
+      }
+    },
+
     board: function () {
       return document.querySelectorAll("button");
+    },
+
+    end: function () {
+      for (i = 0; i < 7; i += 3) {
+        if (
+          Game.board()[i].textContent == Game.board()[i + 1].textContent &&
+          Game.board()[i + 1].textContent == Game.board()[i + 2].textContent
+        ) {
+          if (Game.board()[i].textContent == "X") {
+            document.querySelector(
+              "h1"
+            ).textContent = `A castigat: ${player1.playerName}!!!`;
+            Game.board().forEach((key) => {
+              return (key.disabled = true);
+            });
+            return +10;
+          } else if (Game.board()[i].textContent == "O") {
+            document.querySelector(
+              "h1"
+            ).textContent = `A castigat: ${player2.playerName}!!!`;
+            Game.board().forEach((key) => {
+              return (key.disabled = true);
+            });
+            return -10;
+          }
+        }
+      }
+      for (i = 0; i < 3; i++) {
+        if (
+          Game.board()[i].textContent == Game.board()[i + 3].textContent &&
+          Game.board()[i + 3].textContent == Game.board()[i + 6].textContent
+        ) {
+          if (Game.board()[i].textContent == "X") {
+            document.querySelector(
+              "h1"
+            ).textContent = `A castigat: ${player1.playerName}!!!`;
+            Game.board().forEach((key) => {
+              return (key.disabled = true);
+            });
+            return +10;
+          } else if (Game.board()[i].textContent == "O") {
+            document.querySelector(
+              "h1"
+            ).textContent = `A castigat: ${player2.playerName}!!!`;
+            Game.board().forEach((key) => {
+              return (key.disabled = true);
+            });
+            return -10;
+          }
+        }
+      }
+      if (
+        Game.board()[0].textContent == Game.board()[4].textContent &&
+        Game.board()[4].textContent == Game.board()[8].textContent
+      ) {
+        if (Game.board()[0].textContent == "X") {
+          document.querySelector(
+            "h1"
+          ).textContent = `A castigat: ${player1.playerName}!!!`;
+          Game.board().forEach((key) => {
+            return (key.disabled = true);
+          });
+          return +10;
+        } else if (Game.board()[0].textContent == "O") {
+          document.querySelector(
+            "h1"
+          ).textContent = `A castigat: ${player2.playerName}!!!`;
+          Game.board().forEach((key) => {
+            return (key.disabled = true);
+          });
+          return -10;
+        }
+      }
+      if (
+        Game.board()[2].textContent == Game.board()[4].textContent &&
+        Game.board()[4].textContent == Game.board()[6].textContent
+      ) {
+        if (Game.board()[2].textContent == "X") {
+          document.querySelector(
+            "h1"
+          ).textContent = `A castigat: ${player1.playerName}!!!`;
+          Game.board().forEach((key) => {
+            return (key.disabled = true);
+          });
+          return +10;
+        } else if (Game.board()[2].textContent == "O") {
+          document.querySelector(
+            "h1"
+          ).textContent = `A castigat: ${player2.playerName}!!!`;
+          Game.board().forEach((key) => {
+            return (key.disabled = true);
+          });
+          return -10;
+        }
+      }
+    },
+
+    isMovesLeft: function (board) {
+      for (i = 0; i < board.length; i++) {
+        if (board[i].textContent == "") {
+          return true;
+        }
+      }
+      return false;
     },
   };
 
@@ -33,11 +188,25 @@ window.onload = function () {
   const Player = (playerName, playerSign) => {
     return { playerName, playerSign };
   };
-  //future // init players when player click the button
+
+  //BUTTONS
+  //restart button
+  document.querySelector("#restart").onclick = function () {
+    return window.location.reload();
+  };
+  //AI button
+  document.querySelector("#play_AI").onclick = function () {
+    player1 = Player(prompt("Player1 insert your name:"), "X");
+    player2 = Player("AI", "O");
+    return (document.querySelector("#newPlayer").disabled = true);
+  };
+  //init players when player click the button
   document.querySelector("#newPlayer").onclick = function () {
     player1 = Player(prompt("Player1 insert your name:"), "X");
     player2 = Player(prompt("Player2 insert your name:"), "O");
+    return (document.querySelector("#play_AI").disabled = true);
   };
+
   let gameStatus = {
     turn: 1,
   };
@@ -48,23 +217,6 @@ window.onload = function () {
       //done
       let num = i;
       Game.board()[i].onclick = function () {
-        let board = [
-          [
-            Game.board()[0].textContent,
-            Game.board()[1].textContent,
-            Game.board()[2].textContent,
-          ],
-          [
-            Game.board()[3].textContent,
-            Game.board()[4].textContent,
-            Game.board()[5].textContent,
-          ],
-          [
-            Game.board()[6].textContent,
-            Game.board()[7].textContent,
-            Game.board()[8].textContent,
-          ],
-        ];
         if (player1 == null) {
           return alert("Create new Players please ;)");
         }
@@ -75,7 +227,10 @@ window.onload = function () {
           }
           Game.board()[num].textContent = player1.playerSign;
           gameStatus.turn -= 1;
-        } else if (gameStatus.turn === 0) {
+        } else if (
+          gameStatus.turn === 0 &&
+          document.querySelector("#newPlayer").disabled == false
+        ) {
           if (Game.board()[num].textContent != "") {
             //check function if sign isnt added yet
             return;
@@ -83,83 +238,83 @@ window.onload = function () {
           Game.board()[num].textContent = player2.playerSign;
           gameStatus.turn += 1;
         }
-        for(i = 0; i < 7; i += 3) {
-          if (
-            Game.board()[i].textContent == Game.board()[i + 1].textContent &&
-            Game.board()[i + 1].textContent == Game.board()[i + 2].textContent
-          ) {
-            if (Game.board()[i].textContent == "X") {
-              document.querySelector(
-                "h1"
-              ).textContent = `A castigat: ${player1.playerName}!!!`;
-              Game.board().forEach((key) => {
-                return (key.disabled = true);
-              });
-            } else if (Game.board()[i].textContent == "O") {
-              document.querySelector(
-                "h1"
-              ).textContent = `A castigat: ${player2.playerName}!!!`;
-              Game.board().forEach((key) => {
-                return (key.disabled = true);
-              });
+
+        if (
+          gameStatus.turn === 0 &&
+          document.querySelector("#newPlayer").disabled == true
+        ) {
+          //Minimax
+          function minimax(board, depth, isMax) {
+            let score = Game.evaluate();
+            if (score == 10) {
+              return score;
+            }
+
+            if (score == -10) {
+              return score;
+            }
+
+            if (Game.isMovesLeft(Game.board()) == false) {
+              return 0;
+            }
+            //if its maximizer step
+            if (isMax) {
+              let best = -1000;
+
+              for (i = 0; i < board.length; i++) {
+                if (board[i].textContent == "") {
+                  board[i].textContent = player1.playerSign;
+
+                  best = Math.max(best, minimax(board, depth + 1, !isMax));
+
+                  board[i].textContent = "";
+                }
+              }
+              return best;
+            }
+            //if its minimizer step
+            else {
+              let best = 1000;
+
+              for (i = 0; i < board.length; i++) {
+                if (board[i].textContent == "") {
+                  board[i].textContent = player2.playerSign;
+
+                  best = Math.min(best, minimax(board, depth + 1, !isMax));
+
+                  board[i].textContent = "";
+                }
+              }
+              return best;
             }
           }
-        }
-        for (i = 0; i < 3; i++) {
-          if (
-            Game.board()[i].textContent == Game.board()[i + 3].textContent &&
-            Game.board()[i + 3].textContent == Game.board()[i + 6].textContent
-          ) {
-            if (Game.board()[i].textContent == "X") {
-              document.querySelector(
-                "h1"
-              ).textContent = `A castigat: ${player1.playerName}!!!`;
-              Game.board().forEach((key) => {
-                return (key.disabled = true);
-              });
-            } else if (Game.board()[i].textContent == "O") {
-              document.querySelector(
-                "h1"
-              ).textContent = `A castigat: ${player2.playerName}!!!`;
-              Game.board().forEach((key) => {
-                return (key.disabled = true);
-              });
+          function findBestMove(board) {
+            let bestVal = -1000;
+            let bestMove = new Move();
+            bestMove.id = -1;
+
+            for (i = 0; i < board.length; i++) {
+              if (board[i].textContent == "") {
+                board[i].textContent = player2.playerSign;
+
+                let moveVal = minimax(board, 0, false);
+
+                board[i].textContent = "";
+
+                if (moveVal > bestVal) {
+                  bestMove.id = i;
+                  bestVal = moveVal;
+                }
+              }
             }
+
+            return bestMove;
           }
-        }
-        if(Game.board()[0].textContent == Game.board()[4].textContent && Game.board()[4].textContent == Game.board()[8].textContent){
-          if (Game.board()[0].textContent == "X") {
-            document.querySelector(
-              "h1"
-            ).textContent = `A castigat: ${player1.playerName}!!!`;
-            Game.board().forEach((key) => {
-              return (key.disabled = true);
-            });
-          } else if (Game.board()[0].textContent == "O") {
-            document.querySelector(
-              "h1"
-            ).textContent = `A castigat: ${player2.playerName}!!!`;
-            Game.board().forEach((key) => {
-              return (key.disabled = true);
-            });
-          }
-        }
-        if(Game.board()[2].textContent == Game.board()[4].textContent && Game.board()[4].textContent == Game.board()[6].textContent){
-          if (Game.board()[2].textContent == "X") {
-            document.querySelector(
-              "h1"
-            ).textContent = `A castigat: ${player1.playerName}!!!`;
-            Game.board().forEach((key) => {
-              return (key.disabled = true);
-            });
-          } else if (Game.board()[2].textContent == "O") {
-            document.querySelector(
-              "h1"
-            ).textContent = `A castigat: ${player2.playerName}!!!`;
-            Game.board().forEach((key) => {
-              return (key.disabled = true);
-            });
-          }
+          let board = ["", "", "", "", "", "", "", "", ""]; //testing
+          let bestMove = findBestMove(board); //testing
+          console.log(bestMove.id);
+          Game.end();
+          gameStatus.turn += 1;
         }
       };
     }
