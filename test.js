@@ -1,23 +1,8 @@
-/*
-Создайте проект с файлами HTML, CSS и Javascript и настройте репозиторий Git. (done)
 
-Вы представите игровую доску как массив внутри объекта Game. Информация о игроках также будет храниться в объектах... и вы, вероятно создадите объект, который 
-будет контролировать ход самой игры.
 
-Ваша главная задача - иметь как можно меньше глобального кода. Попробуйте спрятать все внутри модуля или фабрики. Закономерность: если вам нужно что-то в ЕДИНСТВЕННОМ экземпляре 
-(game, displayController), используйте модуль. Если вам нужно что-то многократно (игроки к примеру!), созавайте их с помощью фабрики.
-Добавьте HTML и напишите функцию JavaScript, которая будет отображать содержимое массива игровой доски на веб-страницу (сейчас вы можете просто вручную заполнить массив X и O).
+//IDEA: add an localStorage so when you add new players or start game with AI
+//the page is reloadig but data is saving, and delete data when player click on restart button
 
-Создайте функции, позволяющие игрокам добавлять отметку в определенное место на доске (привязать к DOM). Не забудьте сделать проверку, которая мешает игрокам ставить маркер в местах,
-которые уже заняты!
-
-Тщательно продумайте, где должен находиться каждый кусочек логики вашей программы. Каждый кусочек функциональности должен уместиться в объектах игры, игрока или игрового поля...
-Важно поместить их в логичные места. Потратив немного времени на мозговой штурм, вы можете значительно облегчить себе жизнь!
-Добавьте логику, которая проверяет, когда игра окончена! Первый, выстроивший в ряд 3 своих фигуры по вертикали, горизонтали или диагонали, выигрывает.
-
-Позвольт
-е игрокам ввести свои имена, добавьте кнопку для запуска / перезапуска игры и элемент отображения, который поздравляет победившего игрока!
-*/
 
 //creating game
 window.onload = function () {
@@ -29,6 +14,14 @@ window.onload = function () {
   let player1 = null;
   let player2 = null;
   let Game = {
+    draw: function(board){
+      for (i = 0; i < 9; i++) {
+        if (board[i].textContent == "") {
+          return false;
+        }
+      }
+      return true;
+    },
     evaluate: function (board) {
       for (i = 0; i < 7; i += 3) {
         if (
@@ -216,7 +209,6 @@ window.onload = function () {
       //done
       let num = i;
       Game.board()[i].onclick = function () {
-        Game.end()
         if (player1 == null) {
           return alert("Create new Players please ;)");
         }
@@ -226,6 +218,15 @@ window.onload = function () {
             return;
           }
           Game.board()[num].textContent = player1.playerSign;
+          if(Game.draw(Game.board())){
+            document.querySelector(
+              "h1"
+            ).textContent = `A castigat: Prietenia!!!`;
+            Game.board().forEach((key) => {
+              return (key.disabled = true);
+            });
+            return
+          }
           gameStatus.turn -= 1;
         } else if (
           gameStatus.turn === 0 &&
@@ -306,6 +307,8 @@ window.onload = function () {
               }
             }
             Game.board()[bestMove.id].textContent = 'O'
+            Game.end()
+            gameStatus.turn += 1;
           }
           //Minimax
           let board = [] //testing
@@ -313,8 +316,8 @@ window.onload = function () {
             board[i] = Game.board()[i].textContent
           }
           findBestMove(board); //testing
-          gameStatus.turn += 1;
         }
+        Game.end()
       };
     }
   })();
