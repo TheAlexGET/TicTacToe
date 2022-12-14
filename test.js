@@ -29,57 +29,57 @@ window.onload = function () {
   let player1 = null;
   let player2 = null;
   let Game = {
-    evaluate: function () {
+    evaluate: function (board) {
       for (i = 0; i < 7; i += 3) {
         if (
-          Game.board()[i].textContent == Game.board()[i + 1].textContent &&
-          Game.board()[i + 1].textContent == Game.board()[i + 2].textContent
+          board[i] == board[i + 1] &&
+          board[i + 1] == board[i + 2]
         ) {
-          if (Game.board()[i].textContent == "X") {
+          if (board[i] == "X") {
             return +10;
-          } else if (Game.board()[i].textContent == "O") {
+          } else if (board[i] == "O") {
             return -10;
           }
         }
       }
       for (i = 0; i < 3; i++) {
         if (
-          Game.board()[i].textContent == Game.board()[i + 3].textContent &&
-          Game.board()[i + 3].textContent == Game.board()[i + 6].textContent
+          board[i] == board[i + 3] &&
+          board[i + 3] == board[i + 6]
         ) {
-          if (Game.board()[i].textContent == "X") {
+          if (board[i] == "X") {
             return +10;
-          } else if (Game.board()[i].textContent == "O") {
+          } else if (board[i] == "O") {
             return -10;
           }
         }
       }
       if (
-        Game.board()[0].textContent == Game.board()[4].textContent &&
-        Game.board()[4].textContent == Game.board()[8].textContent
+        board[0] == board[4] &&
+        board[4] == board[8]
       ) {
-        if (Game.board()[0].textContent == "X") {
+        if (board[0] == "X") {
           return +10;
-        } else if (Game.board()[0].textContent == "O") {
+        } else if (board[0] == "O") {
         }
       }
       if (
-        Game.board()[2].textContent == Game.board()[4].textContent &&
-        Game.board()[4].textContent == Game.board()[6].textContent
+        board[2] == board[4] &&
+        board[4] == board[6]
       ) {
-        if (Game.board()[2].textContent == "X") {
+        if (board[2] == "X") {
           return +10;
-        } else if (Game.board()[2].textContent == "O") {
+        } else if (board[2] == "O") {
           return -10;
         }
-      }
+    }
+    return 0
     },
 
     board: function () {
       return document.querySelectorAll("button");
     },
-
-    end: function () {
+     end: function () {
       for (i = 0; i < 7; i += 3) {
         if (
           Game.board()[i].textContent == Game.board()[i + 1].textContent &&
@@ -173,10 +173,9 @@ window.onload = function () {
         }
       }
     },
-
     isMovesLeft: function (board) {
-      for (i = 0; i < board.length; i++) {
-        if (board[i].textContent == "") {
+      for (i = 0; i < 9; i++) {
+        if (board[i] == "") {
           return true;
         }
       }
@@ -217,6 +216,7 @@ window.onload = function () {
       //done
       let num = i;
       Game.board()[i].onclick = function () {
+        Game.end()
         if (player1 == null) {
           return alert("Create new Players please ;)");
         }
@@ -245,75 +245,74 @@ window.onload = function () {
         ) {
           //Minimax
           function minimax(board, depth, isMax) {
-            let score = Game.evaluate();
-            if (score == 10) {
-              return score;
-            }
-
-            if (score == -10) {
-              return score;
-            }
-
-            if (Game.isMovesLeft(Game.board()) == false) {
+            let score = Game.evaluate(board);
+          
+            if (score == 10) return score;
+          
+            if (score == -10) return score;
+          
+            if (Game.isMovesLeft(board) == false) {
               return 0;
             }
-            //if its maximizer step
+          
             if (isMax) {
               let best = -1000;
-
-              for (i = 0; i < board.length; i++) {
-                if (board[i].textContent == "") {
-                  board[i].textContent = player1.playerSign;
-
-                  best = Math.max(best, minimax(board, depth + 1, !isMax));
-
-                  board[i].textContent = "";
+          
+              for (let i = 0; i < 9; i++) {
+                if (board[i] == "") {
+                  board[i] = player1.playerSign;
+          
+                  best = Math.max(best, minimax(board,
+                    depth + 1, !isMax));
+          
+                  board[i] = "";
                 }
               }
               return best;
-            }
-            //if its minimizer step
-            else {
+            } else {
               let best = 1000;
-
-              for (i = 0; i < board.length; i++) {
-                if (board[i].textContent == "") {
-                  board[i].textContent = player2.playerSign;
-
-                  best = Math.min(best, minimax(board, depth + 1, !isMax));
-
-                  board[i].textContent = "";
+          
+              for (let i = 0; i < 9; i++) {
+                if (board[i] == "") {
+                  board[i] = player2.playerSign;
+          
+                  best = Math.min(best, minimax(board,
+                    depth + 1, !isMax));
+          
+                  board[i] = "";
                 }
               }
               return best;
             }
           }
-          function findBestMove(board) {
-            let bestVal = -1000;
+
+          function findBestMove() {
+            let bestVal = 1000;
             let bestMove = new Move();
             bestMove.id = -1;
-
-            for (i = 0; i < board.length; i++) {
-              if (board[i].textContent == "") {
-                board[i].textContent = player2.playerSign;
-
-                let moveVal = minimax(board, 0, false);
-
-                board[i].textContent = "";
-
-                if (moveVal > bestVal) {
+          
+            for (let i = 0; i < 9; i++) {
+              if (board[i] == "") {
+                board[i] = player2.playerSign;
+          
+                let moveVal = minimax(board, 0, true);
+          
+                board[i] = "";
+          
+                if (moveVal < bestVal) {
                   bestMove.id = i;
                   bestVal = moveVal;
                 }
               }
             }
-
-            return bestMove;
+            Game.board()[bestMove.id].textContent = 'O'
           }
-          let board = ["", "", "", "", "", "", "", "", ""]; //testing
-          let bestMove = findBestMove(board); //testing
-          console.log(bestMove.id);
-          Game.end();
+          //Minimax
+          let board = [] //testing
+          for(i = 0; i < 9; i++){
+            board[i] = Game.board()[i].textContent
+          }
+          findBestMove(board); //testing
           gameStatus.turn += 1;
         }
       };
