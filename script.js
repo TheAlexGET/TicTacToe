@@ -1,252 +1,346 @@
-/*
-Создайте проект с файлами HTML, CSS и Javascript и настройте репозиторий Git. (done)
-
-Вы представите игровую доску как массив внутри объекта Gameboard. Информация о игроках также будет храниться в объектах... и вы, вероятно создадите объект, который 
-будет контролировать ход самой игры.
-
-Ваша главная задача - иметь как можно меньше глобального кода. Попробуйте спрятать все внутри модуля или фабрики. Закономерность: если вам нужно что-то в ЕДИНСТВЕННОМ экземпляре 
-(gameBoard, displayController), используйте модуль. Если вам нужно что-то многократно (игроки к примеру!), созавайте их с помощью фабрики.
-Добавьте HTML и напишите функцию JavaScript, которая будет отображать содержимое массива игровой доски на веб-страницу (сейчас вы можете просто вручную заполнить массив X и O).
-
-Создайте функции, позволяющие игрокам добавлять отметку в определенное место на доске (привязать к DOM). Не забудьте сделать проверку, которая мешает игрокам ставить маркер в местах,
-которые уже заняты!
-
-Тщательно продумайте, где должен находиться каждый кусочек логики вашей программы. Каждый кусочек функциональности должен уместиться в объектах игры, игрока или игрового поля...
-Важно поместить их в логичные места. Потратив немного времени на мозговой штурм, вы можете значительно облегчить себе жизнь!
-Добавьте логику, которая проверяет, когда игра окончена! Первый, выстроивший в ряд 3 своих фигуры по вертикали, горизонтали или диагонали, выигрывает.
-
-Позвольт
-е игрокам ввести свои имена, добавьте кнопку для запуска / перезапуска игры и элемент отображения, который поздравляет победившего игрока!
-*/
+//creating game
 window.onload = function () {
-  //code here
-  let gameBoard = (() => {
-    return document.querySelectorAll("button");
+  class Move {
+    constructor() {
+      let id;
+    }
+  }
+  let Game = {
+    draw: function (board) {
+      for (i = 0; i < 9; i++) {
+        if (board[i].textContent == "") {
+          return false;
+        }
+      }
+      return true;
+    },
+    evaluate: function (board) {
+      for (i = 0; i < 7; i += 3) {
+        if (board[i] == board[i + 1] && board[i + 1] == board[i + 2]) {
+          if (board[i] == "X") {
+            return +10;
+          } else if (board[i] == "O") {
+            return -10;
+          }
+        }
+      }
+      for (i = 0; i < 3; i++) {
+        if (board[i] == board[i + 3] && board[i + 3] == board[i + 6]) {
+          if (board[i] == "X") {
+            return +10;
+          } else if (board[i] == "O") {
+            return -10;
+          }
+        }
+      }
+      if (board[0] == board[4] && board[4] == board[8]) {
+        if (board[0] == "X") {
+          return +10;
+        } else if (board[0] == "O") {
+        }
+      }
+      if (board[2] == board[4] && board[4] == board[6]) {
+        if (board[2] == "X") {
+          return +10;
+        } else if (board[2] == "O") {
+          return -10;
+        }
+      }
+      return 0;
+    },
+
+    board: function () {
+      return document.querySelectorAll("button");
+    },
+    end: function () {
+      for (i = 0; i < 7; i += 3) {
+        if (
+          Game.board()[i].textContent == Game.board()[i + 1].textContent &&
+          Game.board()[i + 1].textContent == Game.board()[i + 2].textContent
+        ) {
+          if (Game.board()[i].textContent == "X") {
+            document.querySelector("h1").textContent = `A castigat: ${
+              JSON.parse(localStorage.getItem("player1")).playerName
+            }!!!`;
+            Game.board().forEach((key) => {
+              return (key.disabled = true);
+            });
+            return +10;
+          } else if (Game.board()[i].textContent == "O") {
+            document.querySelector("h1").textContent = `A castigat: ${
+              JSON.parse(localStorage.getItem("player2")).playerName
+            }!!!`;
+            Game.board().forEach((key) => {
+              return (key.disabled = true);
+            });
+            return -10;
+          }
+        }
+      }
+      for (i = 0; i < 3; i++) {
+        if (
+          Game.board()[i].textContent == Game.board()[i + 3].textContent &&
+          Game.board()[i + 3].textContent == Game.board()[i + 6].textContent
+        ) {
+          if (Game.board()[i].textContent == "X") {
+            document.querySelector("h1").textContent = `A castigat: ${
+              JSON.parse(localStorage.getItem("player1")).playerName
+            }!!!`;
+            Game.board().forEach((key) => {
+              return (key.disabled = true);
+            });
+            return +10;
+          } else if (Game.board()[i].textContent == "O") {
+            document.querySelector("h1").textContent = `A castigat: ${
+              JSON.parse(localStorage.getItem("player2")).playerName
+            }!!!`;
+            Game.board().forEach((key) => {
+              return (key.disabled = true);
+            });
+            return -10;
+          }
+        }
+      }
+      if (
+        Game.board()[0].textContent == Game.board()[4].textContent &&
+        Game.board()[4].textContent == Game.board()[8].textContent
+      ) {
+        if (Game.board()[0].textContent == "X") {
+          document.querySelector("h1").textContent = `A castigat: ${
+            JSON.parse(localStorage.getItem("player1")).playerName
+          }!!!`;
+          Game.board().forEach((key) => {
+            return (key.disabled = true);
+          });
+          return +10;
+        } else if (Game.board()[0].textContent == "O") {
+          document.querySelector("h1").textContent = `A castigat: ${
+            JSON.parse(localStorage.getItem("player2")).playerName
+          }!!!`;
+          Game.board().forEach((key) => {
+            return (key.disabled = true);
+          });
+          return -10;
+        }
+      }
+      if (
+        Game.board()[2].textContent == Game.board()[4].textContent &&
+        Game.board()[4].textContent == Game.board()[6].textContent
+      ) {
+        if (Game.board()[2].textContent == "X") {
+          document.querySelector("h1").textContent = `A castigat: ${
+            JSON.parse(localStorage.getItem("player1")).playerName
+          }!!!`;
+          Game.board().forEach((key) => {
+            return (key.disabled = true);
+          });
+          return +10;
+        } else if (Game.board()[2].textContent == "O") {
+          document.querySelector("h1").textContent = `A castigat: ${
+            JSON.parse(localStorage.getItem("player2")).playerName
+          }!!!`;
+          Game.board().forEach((key) => {
+            return (key.disabled = true);
+          });
+          return -10;
+        }
+      }
+    },
+    isMovesLeft: function (board) {
+      for (i = 0; i < 9; i++) {
+        if (board[i] == "") {
+          return true;
+        }
+      }
+      return false;
+    },
+  };
+
+  //creating Player
+  const Player = (playerName, playerSign) => {
+    return { playerName, playerSign };
+  };
+
+  //BUTTONS
+  //restart button
+  document.querySelector("#restart").onclick = function () {
+    localStorage.removeItem("player1");
+    localStorage.removeItem("player2");
+    window.location.reload();
+  };
+  //AI button
+  document.querySelector("#play_AI").onclick = function () {
+    localStorage.setItem(
+      "player1",
+      JSON.stringify(Player(prompt("Player1 insert your name:"), "X"))
+    );
+    localStorage.setItem("player2", JSON.stringify(Player("AI", "O")));
+    document.querySelector("#newPlayer").disabled = true;
+    document.querySelector('h1').textContent = `Acum merge ${JSON.parse(localStorage.getItem('player1')).playerName} (X)`
+  };
+  //init players when player click the button
+  document.querySelector("#newPlayer").onclick = function () {
+    localStorage.setItem(
+      "player1",
+      JSON.stringify(Player(prompt("Player1 insert your name:"), "X"))
+    );
+    localStorage.setItem(
+      "player2",
+      JSON.stringify(Player(prompt("Player2 insert your name:"), "O"))
+    );
+    document.querySelector("#play_AI").disabled = true;
+    document.querySelector('h1').textContent = `Acum merge ${JSON.parse(localStorage.getItem('player1')).playerName} (X)`
+  };
+
+  //Play again button
+  document.querySelector("#newGame").onclick = function () {
+    if(document.querySelector("#play_AI").disabled == true){
+    }
+    gameStatus.turn = 1
+      Game.board().forEach((key) => {
+        key.textContent = "";
+      });
+      document.querySelector("h1").textContent = "";
+      Game.board().forEach((key) => {
+        return (key.disabled = false);
+      });
+      if(localStorage.getItem('player1') != undefined){
+        document.querySelector('h1').textContent = `Acum merge ${JSON.parse(localStorage.getItem('player1')).playerName} (X)`
+      }
+      
+  };
+
+  //game status object
+  let gameStatus = {
+    turn: 1,
+  };
+  //render function
+  const render = (() => {
+    for (i = 0; i < Game.board().length; i++) {
+      //done
+      let num = i;
+      Game.board()[i].onclick = function () {
+        if (localStorage.getItem("player1") == undefined) {
+          return alert("Create new Players please ;)");
+        }
+        if (gameStatus.turn === 1) {
+          if (Game.board()[num].textContent != "") {
+            //check function if sign isnt added yet
+            return;
+          }
+          Game.board()[num].textContent = JSON.parse(
+            localStorage.getItem("player1")
+          ).playerSign;
+          if (Game.draw(Game.board())) {
+            document.querySelector(
+              "h1"
+            ).textContent = `A castigat: Prietenia!!!`;
+            Game.board().forEach((key) => {
+              return (key.disabled = true);
+            });
+            return;
+          }
+          gameStatus.turn -= 1;
+          document.querySelector('h1').textContent = `Acum merge ${JSON.parse(localStorage.getItem('player2')).playerName} (O)`
+        } else if (
+          gameStatus.turn === 0 &&
+          document.querySelector("#newPlayer").disabled == false
+        ) {
+          if (Game.board()[num].textContent != "") {
+            //check function if sign isnt added yet
+            return;
+          }
+          Game.board()[num].textContent = JSON.parse(
+            localStorage.getItem("player2")
+          ).playerSign;
+          gameStatus.turn += 1;
+          document.querySelector('h1').textContent = `Acum merge ${JSON.parse(localStorage.getItem('player1')).playerName} (X)`
+        }
+
+        if (
+          gameStatus.turn === 0 &&
+          document.querySelector("#newPlayer").disabled == true
+        ) {
+          //Minimax
+          function minimax(board, depth, isMax) {
+            let score = Game.evaluate(board);
+
+            if (score == 10) return score;
+
+            if (score == -10) return score;
+
+            if (Game.isMovesLeft(board) == false) {
+              return 0;
+            }
+
+            if (isMax) {
+              let best = -1000;
+
+              for (let i = 0; i < 9; i++) {
+                if (board[i] == "") {
+                  board[i] = JSON.parse(
+                    localStorage.getItem("player1")
+                  ).playerSign;
+
+                  best = Math.max(best, minimax(board, depth + 1, !isMax));
+
+                  board[i] = "";
+                }
+              }
+              return best;
+            } else {
+              let best = 1000;
+
+              for (let i = 0; i < 9; i++) {
+                if (board[i] == "") {
+                  board[i] = JSON.parse(
+                    localStorage.getItem("player2")
+                  ).playerSign;
+
+                  best = Math.min(best, minimax(board, depth + 1, !isMax));
+
+                  board[i] = "";
+                }
+              }
+              return best;
+            }
+          }
+          function findBestMove() {
+            let bestVal = 1000;
+            let bestMove = new Move();
+            bestMove.id = -1;
+
+            for (let i = 0; i < 9; i++) {
+              if (board[i] == "") {
+                board[i] = JSON.parse(
+                  localStorage.getItem("player2")
+                ).playerSign;
+
+                let moveVal = minimax(board, 0, true);
+
+                board[i] = "";
+
+                if (moveVal < bestVal) {
+                  bestMove.id = i;
+                  bestVal = moveVal;
+                }
+              }
+            }
+            Game.board()[bestMove.id].textContent = "O";
+            document.querySelector('h1').textContent = `Acum merge ${JSON.parse(localStorage.getItem('player1')).playerName} (X)`
+            Game.end();
+            gameStatus.turn += 1;
+          }
+          //Minimax
+          let board = []; //testing
+          for (i = 0; i < 9; i++) {
+            board[i] = Game.board()[i].textContent;
+          }
+          findBestMove(board); //testing
+        }
+        Game.end();
+      };
+    }
   })();
-  let congrat = document.querySelector("#congrat");
-  const displayController = (() => {
-    let i = 0;
-    const render = function () {
-      gameBoard[0].onclick = function () {
-        if (i === 0) {
-          if (gameBoard[0].textContent == "") {
-            gameBoard[0].textContent = "X";
-            i++;
-          }
-        } else {
-          if (gameBoard[0].textContent == "") {
-            gameBoard[0].textContent = "O";
-            i--;
-          }
-        }
-        if (
-          (gameBoard[0].textContent == gameBoard[1].textContent &&
-            gameBoard[1].textContent == gameBoard[2].textContent) ||
-          (gameBoard[0].textContent == gameBoard[4].textContent &&
-            gameBoard[4].textContent == gameBoard[8].textContent) ||
-          (gameBoard[0].textContent == gameBoard[3].textContent &&
-            gameBoard[3].textContent == gameBoard[6].textContent)
-        ) {
-          //ITS working
-          congrat.textContent = `Player ${gameBoard[0].textContent} a castigat!!!`;
-          gameBoard.forEach((key) => {return key.disabled = true})
-        }
-      };
-      gameBoard[1].onclick = function () {
-        if (i === 0) {
-          if (gameBoard[1].textContent == "") {
-            gameBoard[1].textContent = "X";
-            i++;
-          }
-        } else {
-          if (gameBoard[1].textContent == "") {
-            gameBoard[1].textContent = "O";
-            i--;
-          }
-        }
-        if (
-          (gameBoard[0].textContent == gameBoard[1].textContent &&
-            gameBoard[1].textContent == gameBoard[2].textContent) ||
-          (gameBoard[1].textContent == gameBoard[4].textContent &&
-            gameBoard[4].textContent == gameBoard[7].textContent)
-        ) {
-          //ITS working
-          congrat.textContent = `Player ${gameBoard[1].textContent} a castigat!!!`;
-          gameBoard.forEach((key) => {return key.disabled = true})
-        }
-      };
-      gameBoard[2].onclick = function () {
-        if (i === 0) {
-          if (gameBoard[2].textContent == "") {
-            gameBoard[2].textContent = "X";
-            i++;
-          }
-        } else {
-          if (gameBoard[2].textContent == "") {
-            gameBoard[2].textContent = "O";
-            i--;
-          }
-        }
-        if (
-          (gameBoard[0].textContent == gameBoard[1].textContent &&
-            gameBoard[1].textContent == gameBoard[2].textContent) ||
-          (gameBoard[2].textContent == gameBoard[4].textContent &&
-            gameBoard[4].textContent == gameBoard[6].textContent) ||
-          (gameBoard[2].textContent == gameBoard[5].textContent &&
-            gameBoard[5].textContent == gameBoard[8].textContent)
-        ) {
-          //ITS working
-          congrat.textContent = `Player ${gameBoard[2].textContent} a castigat!!!`;
-          gameBoard.forEach((key) => {return key.disabled = true})
-        }
-      };
-      gameBoard[3].onclick = function () {
-        if (i === 0) {
-          if (gameBoard[3].textContent == "") {
-            gameBoard[3].textContent = "X";
-            i++;
-          }
-        } else {
-          if (gameBoard[3].textContent == "") {
-            gameBoard[3].textContent = "O";
-            i--;
-          }
-        }
-        if (
-          (gameBoard[0].textContent == gameBoard[3].textContent &&
-            gameBoard[3].textContent == gameBoard[6].textContent) ||
-          (gameBoard[3].textContent == gameBoard[4].textContent &&
-            gameBoard[4].textContent == gameBoard[5].textContent)
-        ) {
-          //ITS working
-          congrat.textContent = `Player ${gameBoard[3].textContent} a castigat!!!`;
-          gameBoard.forEach((key) => {return key.disabled = true})
-        }
-      };
-      gameBoard[4].onclick = function () {
-        if (i === 0) {
-          if (gameBoard[4].textContent == "") {
-            gameBoard[4].textContent = "X";
-            i++;
-          }
-        } else {
-          if (gameBoard[4].textContent == "") {
-            gameBoard[4].textContent = "O";
-            i--;
-          }
-        }
-        if (
-          (gameBoard[0].textContent == gameBoard[4].textContent &&
-            gameBoard[4].textContent == gameBoard[8].textContent) ||
-          (gameBoard[1].textContent == gameBoard[4].textContent &&
-            gameBoard[4].textContent == gameBoard[7].textContent) ||
-          (gameBoard[2].textContent == gameBoard[4].textContent &&
-            gameBoard[4].textContent == gameBoard[6].textContent) ||
-          (gameBoard[3].textContent == gameBoard[4].textContent &&
-            gameBoard[4].textContent == gameBoard[5].textContent)
-        ) {
-          //ITS working
-          congrat.textContent = `Player ${gameBoard[4].textContent} a castigat!!!`;
-          gameBoard.forEach((key) => {return key.disabled = true})
-        }
-      };
-      gameBoard[5].onclick = function () {
-        if (i === 0) {
-          if (gameBoard[5].textContent == "") {
-            gameBoard[5].textContent = "X";
-            i++;
-          }
-        } else {
-          if (gameBoard[5].textContent == "") {
-            gameBoard[5].textContent = "O";
-            i--;
-          }
-        }
-        if (
-          (gameBoard[2].textContent == gameBoard[5].textContent &&
-            gameBoard[5].textContent == gameBoard[8].textContent) ||
-          (gameBoard[3].textContent == gameBoard[4].textContent &&
-            gameBoard[4].textContent == gameBoard[5].textContent)
-        ) {
-          //ITS working
-          congrat.textContent = `Player ${gameBoard[5].textContent} a castigat!!!`;
-          gameBoard.forEach((key) => {return key.disabled = true})
-        }
-      };
-      gameBoard[6].onclick = function () {
-        if (i === 0) {
-          if (gameBoard[6].textContent == "") {
-            gameBoard[6].textContent = "X";
-            i++;
-          }
-        } else {
-          if (gameBoard[6].textContent == "") {
-            gameBoard[6].textContent = "O";
-            i--;
-          }
-        }
-        if (
-          (gameBoard[0].textContent == gameBoard[3].textContent &&
-            gameBoard[3].textContent == gameBoard[6].textContent) ||
-          (gameBoard[6].textContent == gameBoard[7].textContent &&
-            gameBoard[7].textContent == gameBoard[8].textContent) ||
-          (gameBoard[2].textContent == gameBoard[4].textContent &&
-            gameBoard[4].textContent == gameBoard[6].textContent)
-        ) {
-          //ITS working
-          congrat.textContent = `Player ${gameBoard[6].textContent} a castigat!!!`;
-          gameBoard.forEach((key) => {return key.disabled = true})
-        }
-      };
-      gameBoard[7].onclick = function () {
-        if (i === 0) {
-          if (gameBoard[7].textContent == "") {
-            gameBoard[7].textContent = "X";
-            i++;
-          }
-        } else {
-          if (gameBoard[7].textContent == "") {
-            gameBoard[7].textContent = "O";
-            i--;
-          }
-        }
-        if (
-          (gameBoard[6].textContent == gameBoard[7].textContent &&
-            gameBoard[7].textContent == gameBoard[8].textContent) ||
-          (gameBoard[1].textContent == gameBoard[4].textContent &&
-            gameBoard[4].textContent == gameBoard[7].textContent)
-        ) {
-          //ITS working
-          congrat.textContent = `Player ${gameBoard[7].textContent} a castigat!!!`;
-          gameBoard.forEach((key) => {return key.disabled = true})
-        }
-      };
-      gameBoard[8].onclick = function () {
-        if (i === 0) {
-          if (gameBoard[8].textContent == "") {
-            gameBoard[8].textContent = "X";
-            i++;
-          }
-        } else {
-          if (gameBoard[8].textContent == "") {
-            gameBoard[8].textContent = "O";
-            i--;
-          }
-        }
-        if (
-          (gameBoard[6].textContent == gameBoard[7].textContent &&
-            gameBoard[7].textContent == gameBoard[8].textContent) ||
-          (gameBoard[0].textContent == gameBoard[4].textContent &&
-            gameBoard[4].textContent == gameBoard[8].textContent) ||
-          (gameBoard[2].textContent == gameBoard[5].textContent &&
-            gameBoard[5].textContent == gameBoard[8].textContent)
-        ) {
-          //ITS working
-          congrat.textContent = `Player ${gameBoard[8].textContent} a castigat!!!`;
-          gameBoard.forEach((key) => {return key.disabled = true})
-        }
-      };
-    };
-    return render();
-  })();
+  //Done! That was very interesting project to do, i learnt so much about alghorithms and javascript native
 };

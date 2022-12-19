@@ -48,7 +48,29 @@ button {
   border-radius: 10px;
 }
 
+#newGame{
+  width: 115px;
+  height: 40px;
+  background-color: rgb(99, 216, 103);
+  border: 1px solid rgb(204, 197, 197);
+  border-radius: 10px;
+}
+
 h1{
   text-align: center;
   height: 15px;
+}
+
+.tips{
+  position: absolute;
+  background-color: rgb(205, 176, 132);
+  border-radius: 10px;
+  width: 200px;
+  font-size: larger
+}
+
+@media (max-width: 816px) {
+  .tips{
+    opacity: 0;
+  }
 }
