@@ -234,7 +234,7 @@ window.onload = function () {
           if (Game.draw(Game.board())) {
             document.querySelector(
               "h1"
-            ).textContent = `The Winner is: Prietenia!!!`;
+            ).textContent = `Draw!`;
             Game.board().forEach((key) => {
               return (key.disabled = true);
             });
