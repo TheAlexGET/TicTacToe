@@ -59,7 +59,7 @@ window.onload = function () {
           Game.board()[i + 1].textContent == Game.board()[i + 2].textContent
         ) {
           if (Game.board()[i].textContent == "X") {
-            document.querySelector("h1").textContent = `A castigat: ${
+            document.querySelector("h1").textContent = `The Winner is: ${
               JSON.parse(localStorage.getItem("player1")).playerName
             }!!!`;
             Game.board().forEach((key) => {
@@ -67,7 +67,7 @@ window.onload = function () {
             });
             return +10;
           } else if (Game.board()[i].textContent == "O") {
-            document.querySelector("h1").textContent = `A castigat: ${
+            document.querySelector("h1").textContent = `The Winner is: ${
               JSON.parse(localStorage.getItem("player2")).playerName
             }!!!`;
             Game.board().forEach((key) => {
@@ -83,7 +83,7 @@ window.onload = function () {
           Game.board()[i + 3].textContent == Game.board()[i + 6].textContent
         ) {
           if (Game.board()[i].textContent == "X") {
-            document.querySelector("h1").textContent = `A castigat: ${
+            document.querySelector("h1").textContent = `The Winner is: ${
               JSON.parse(localStorage.getItem("player1")).playerName
             }!!!`;
             Game.board().forEach((key) => {
@@ -91,7 +91,7 @@ window.onload = function () {
             });
             return +10;
           } else if (Game.board()[i].textContent == "O") {
-            document.querySelector("h1").textContent = `A castigat: ${
+            document.querySelector("h1").textContent = `The Winner is: ${
               JSON.parse(localStorage.getItem("player2")).playerName
             }!!!`;
             Game.board().forEach((key) => {
@@ -106,7 +106,7 @@ window.onload = function () {
         Game.board()[4].textContent == Game.board()[8].textContent
       ) {
         if (Game.board()[0].textContent == "X") {
-          document.querySelector("h1").textContent = `A castigat: ${
+          document.querySelector("h1").textContent = `The Winner is: ${
             JSON.parse(localStorage.getItem("player1")).playerName
           }!!!`;
           Game.board().forEach((key) => {
@@ -114,7 +114,7 @@ window.onload = function () {
           });
           return +10;
         } else if (Game.board()[0].textContent == "O") {
-          document.querySelector("h1").textContent = `A castigat: ${
+          document.querySelector("h1").textContent = `The Winner is: ${
             JSON.parse(localStorage.getItem("player2")).playerName
           }!!!`;
           Game.board().forEach((key) => {
@@ -128,7 +128,7 @@ window.onload = function () {
         Game.board()[4].textContent == Game.board()[6].textContent
       ) {
         if (Game.board()[2].textContent == "X") {
-          document.querySelector("h1").textContent = `A castigat: ${
+          document.querySelector("h1").textContent = `The Winner is: ${
             JSON.parse(localStorage.getItem("player1")).playerName
           }!!!`;
           Game.board().forEach((key) => {
@@ -136,7 +136,7 @@ window.onload = function () {
           });
           return +10;
         } else if (Game.board()[2].textContent == "O") {
-          document.querySelector("h1").textContent = `A castigat: ${
+          document.querySelector("h1").textContent = `The Winner is: ${
             JSON.parse(localStorage.getItem("player2")).playerName
           }!!!`;
           Game.board().forEach((key) => {
@@ -176,7 +176,7 @@ window.onload = function () {
     );
     localStorage.setItem("player2", JSON.stringify(Player("AI", "O")));
     document.querySelector("#newPlayer").disabled = true;
-    document.querySelector('h1').textContent = `Acum merge ${JSON.parse(localStorage.getItem('player1')).playerName} (X)`
+    document.querySelector('h1').textContent = `Now play ${JSON.parse(localStorage.getItem('player1')).playerName} (X)`
   };
   //init players when player click the button
   document.querySelector("#newPlayer").onclick = function () {
@@ -189,7 +189,7 @@ window.onload = function () {
       JSON.stringify(Player(prompt("Player2 insert your name:"), "O"))
     );
     document.querySelector("#play_AI").disabled = true;
-    document.querySelector('h1').textContent = `Acum merge ${JSON.parse(localStorage.getItem('player1')).playerName} (X)`
+    document.querySelector('h1').textContent = `Now play ${JSON.parse(localStorage.getItem('player1')).playerName} (X)`
   };
 
   //Play again button
@@ -205,7 +205,7 @@ window.onload = function () {
         return (key.disabled = false);
       });
       if(localStorage.getItem('player1') != undefined){
-        document.querySelector('h1').textContent = `Acum merge ${JSON.parse(localStorage.getItem('player1')).playerName} (X)`
+        document.querySelector('h1').textContent = `Now play ${JSON.parse(localStorage.getItem('player1')).playerName} (X)`
       }
       
   };
@@ -234,14 +234,14 @@ window.onload = function () {
           if (Game.draw(Game.board())) {
             document.querySelector(
               "h1"
-            ).textContent = `A castigat: Prietenia!!!`;
+            ).textContent = `The Winner is: Prietenia!!!`;
             Game.board().forEach((key) => {
               return (key.disabled = true);
             });
             return;
           }
           gameStatus.turn -= 1;
-          document.querySelector('h1').textContent = `Acum merge ${JSON.parse(localStorage.getItem('player2')).playerName} (O)`
+          document.querySelector('h1').textContent = `Now play ${JSON.parse(localStorage.getItem('player2')).playerName} (O)`
         } else if (
           gameStatus.turn === 0 &&
           document.querySelector("#newPlayer").disabled == false
@@ -254,7 +254,7 @@ window.onload = function () {
             localStorage.getItem("player2")
           ).playerSign;
           gameStatus.turn += 1;
-          document.querySelector('h1').textContent = `Acum merge ${JSON.parse(localStorage.getItem('player1')).playerName} (X)`
+          document.querySelector('h1').textContent = `Now play ${JSON.parse(localStorage.getItem('player1')).playerName} (X)`
         }
 
         if (
@@ -327,7 +327,7 @@ window.onload = function () {
               }
             }
             Game.board()[bestMove.id].textContent = "O";
-            document.querySelector('h1').textContent = `Acum merge ${JSON.parse(localStorage.getItem('player1')).playerName} (X)`
+            document.querySelector('h1').textContent = `Now play ${JSON.parse(localStorage.getItem('player1')).playerName} (X)`
             Game.end();
             gameStatus.turn += 1;
           }
