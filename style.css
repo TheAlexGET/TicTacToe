@@ -74,3 +74,37 @@ h1{
     opacity: 0;
   }
 }
+
+@media (max-width: 500px) {
+  #newPlayer{
+    width: 90px;
+    height: 40px;
+    background-color: rgb(99, 216, 103);
+    border: 1px solid rgb(204, 197, 197);
+    border-radius: 10px;
+  }
+  
+  #play_AI{
+    width: 90px;
+    height: 40px;
+    background-color: rgb(99, 216, 103);
+    border: 1px solid rgb(204, 197, 197);
+    border-radius: 10px;
+  }
+  
+  #newGame{
+    width: 90px;
+    height: 40px;
+    background-color: rgb(99, 216, 103);
+    border: 1px solid rgb(204, 197, 197);
+    border-radius: 10px;
+  }
+
+  #restart{
+    width: 90px;
+    height: 40px;
+    background-color: rgb(198, 9, 9);
+    border: 1px solid rgb(204, 197, 197);
+    border-radius: 10px;
+  }
+}
