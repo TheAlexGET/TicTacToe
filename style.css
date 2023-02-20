@@ -124,7 +124,7 @@ h1{
 
 @media (max-width: 816px) {
   .tips{
-    opacity: 0;
+    display: none;
   }
 }
 
